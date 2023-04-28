@@ -1,0 +1,1 @@
+ElectricApplianceList{appliances=[Lamp{isOn=false}, Lamp{isOn=false}, TV{isOn=false, channel=1}, TV{isOn=false, channel=1}]}

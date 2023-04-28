@@ -1,10 +1,14 @@
 package a;
 
+import lab_5_c.MemoryAllocationException;
+
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, MemoryAllocationException {
         try {
+            Writer writer = new Writer();
             Wing wing = new Wing();
             Chassis chassis = new Chassis();
             Engine engine = new Engine();
@@ -17,14 +21,14 @@ public class Main {
                 System.out.println("Установите маршрут (его надо написать)");
                 command = new Scanner(System.in).nextLine();
                 plane.setRoute(command);
-                System.out.println("Здравствуйте уважаемы поссажиры на самолет будет лететь по маршруту " + plane.printRoute());
+                writer.fileWriter("Здравствуйте уважаемы поссажиры на самолет будет лететь по маршруту " + plane.printRoute());
                 System.out.println("Завести двигатель?");
                 command = new Scanner(System.in).nextLine();
                 if (command.equals("да")) {
                     engine.TurnOnEngine();
                 } else {
                     engine.TurnOffEngine();
-                    System.out.println("мы так далеко не улетим");
+                    writer.fileWriter("мы так далеко не улетим");
                     break;
                 }
                 System.out.println("при взлёте необходимо открыть закрылки, хотите их открыть?");
@@ -33,7 +37,7 @@ public class Main {
                     wing.turnOnFlaps();
                 } else {
                     wing.turnOffFlaps();
-                    System.out.println("при попытке взлететь вы не смогли набрать высоту и разбились об забор");
+                    writer.fileWriter("при попытке взлететь вы не смогли набрать высоту и разбились об забор");
                     break;
                 }
                 Thread.sleep(2000);
@@ -43,7 +47,7 @@ public class Main {
                     chassis.raiseChassis();
                 } else {
                     chassis.lowerTheLandingGear();
-                    System.out.println("из-за открытых шасси самолёт летел плохо, но всё обошлось");
+                    writer.fileWriter("из-за открытых шасси самолёт летел плохо, но всё обошлось");
                 }
                 Thread.sleep(5000);
                 System.out.println("мы приближаемся к месту назначения, открыть шасси?");
@@ -52,24 +56,26 @@ public class Main {
                     chassis.lowerTheLandingGear();
                 } else {
                     chassis.raiseChassis();
-                    System.out.println("Вы не сумели приземлится, самолёт разбился");
+                    writer.fileWriter("Вы не сумели приземлится, самолёт разбился");
                     break;
                 }
-                System.out.println("Уважаемые пассажиры мы успешно приземлились, самолёт пилотировала Мария Быцко(наш лучший пилот)");
+                writer.fileWriter("Уважаемые пассажиры мы успешно приземлились, самолёт пилотировала Мария Быцко(наш лучший пилот)");
                 System.out.println("Когда самолёт стоит нужно закрыть закрылки. Закрыть закрылки");
                 command = new Scanner(System.in).nextLine();
                 if (command.equals("да")) {
                     wing.turnOffFlaps();
-                    System.out.println("Следующий рейс через 30 минут");
+                    writer.fileWriter("Следующий рейс через 30 минут");
                 } else {
                     wing.turnOnFlaps();
-                    System.out.println("Зачем вы портите самолёт?");
+                    writer.fileWriter("Зачем вы портите самолёт?");
                 }
                 Thread.sleep(5000);
 
             }
         } catch (InterruptedException e) {
             System.out.println(e);
+        } catch (OutOfMemoryError e) {
+            throw new MemoryAllocationException("Not enough memory to read file: a.txt");
         }
     }
 }

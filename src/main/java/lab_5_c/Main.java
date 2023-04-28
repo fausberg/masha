@@ -22,9 +22,12 @@ public class Main {
                 }
             }
             reader.close();
+            FileWriter fileWriter = new FileWriter("c.txt" ,true);
             double average = count > 0 ? sum / count : 0.0;
-            System.out.println("Sum: " + sum);
-            System.out.println("Average: " + average);
+            fileWriter.write(String.valueOf(sum));
+            fileWriter.append("\n");
+            fileWriter.write(String.valueOf(average));
+            fileWriter.flush();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
